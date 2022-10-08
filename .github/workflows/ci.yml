@@ -7,31 +7,39 @@ on:
     branches: [ "master" ]
 
 jobs:
+  test:
+    - name: Test
+      runs-on: ubuntu-latest
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+      services:
+        postgres:
+          image: postgres:12
+          env:
+            POSTGRES_PASSWORD: secret
+            POSTGRES_USER: root
+            POSTGRES_DB: simple_bank
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.18
+    
 
-      - name: Test
-        run: make test
-        services:
-          postgres:
-            image: postgres:12
-            env:
-              POSTGRES_PASSWORD: secret
-              POSTGRES_USER: root
-              POSTGRES_DB: simple_bank
-            options: >-
-              --health-cmd pg_isready
-              --health-interval 10s
-              --health-timeout 5s
-              --health-retries 5
+    
+      steps:
+        - uses: actions/checkout@v3
+        - name: Set up Go
+          uses: actions/setup-go@v3
+          with:
+            go-version: 1.18
 
-      - name: Run Migrations
-        run: make migrateup
+        - name: Run Migrations
+          run: make migrateup
+
+        - name: test
+          run: make test
+
+
+
+

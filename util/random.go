@@ -28,7 +28,7 @@ func RandomString(n int) string {
 	return sb.String()
 }
 
-// RandomOwner genrates a random owner name
+// RandomOwner generates a random owner name
 func RandomOwner() string {
 	return RandomString(6)
 }
@@ -38,7 +38,7 @@ func RandomMoney() int64 {
 	return RandomInt(0, 1000)
 }
 
-// RandonCurrency generates a random currency
+// RandomCurrency generates a random currency
 func RandomCurrency() string {
 	currencies := []string{"USD", "EUR", "KES", "CAD"}
 	n := len(currencies)

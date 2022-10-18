@@ -15,7 +15,7 @@ type transferRequest struct {
 	Currency      string `json:"currency" binding:"required,currency"`
 }
 
-func (s *Server) createTransfer(ctx *gin.Context) {
+func (server *Server) createTransfer(ctx *gin.Context) {
 	var req transferRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
@@ -23,12 +23,12 @@ func (s *Server) createTransfer(ctx *gin.Context) {
 	}
 
 	// check whether the currency of the account sending the money matches the transaction
-	if !s.validateAccount(ctx, req.FromAccountID, req.Currency) {
+	if !server.validateAccount(ctx, req.FromAccountID, req.Currency) {
 		return
 	}
 
 	// Check whether the currency of the account receiving the money matches the transaction
-	if !s.validateAccount(ctx, req.ToAccountID, req.Currency) {
+	if !server.validateAccount(ctx, req.ToAccountID, req.Currency) {
 		return
 	}
 
@@ -38,7 +38,7 @@ func (s *Server) createTransfer(ctx *gin.Context) {
 		Amount:        req.Amount,
 	}
 
-	result, err := s.store.TransferTX(ctx, arg)
+	result, err := server.store.TransferTX(ctx, arg)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
@@ -47,8 +47,8 @@ func (s *Server) createTransfer(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, result)
 }
 
-func (s *Server) validateAccount(ctx *gin.Context, accountID int64, currency string) bool {
-	account, err := s.store.GetAccount(ctx, accountID)
+func (server *Server) validateAccount(ctx *gin.Context, accountID int64, currency string) bool {
+	account, err := server.store.GetAccount(ctx, accountID)
 	if err != nil {
 		// Show an error 404 if we do not find the account
 		if err == sql.ErrNoRows {
@@ -60,7 +60,7 @@ func (s *Server) validateAccount(ctx *gin.Context, accountID int64, currency str
 	}
 
 	if account.Currency != currency {
-		err = fmt.Errorf("account (%d) currency mismatch, currency mismatch %s vs %s", accountID, account.Currency, currency)
+		err = fmt.Errorf("account (%d) currency mismatch, currency mismatch %server vs %server", accountID, account.Currency, currency)
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
 		return false
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	_ "github.com/lib/pq"
 	"log"
 	"simplebank/api"
@@ -21,7 +22,11 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	server := api.NewServer(store)
+	server, err := api.NewServer(config, store)
+	fmt.Println("config is ", len(config.TokenSymmetricKey))
+	if err != nil {
+		log.Fatal("cannot create server :", err)
+	}
 	serverErr := server.StartServer(config.ServerAddress)
 	if serverErr != nil {
 		log.Fatalf("Failed to start server %v", serverErr)

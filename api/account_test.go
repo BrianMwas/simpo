@@ -308,11 +308,6 @@ func requireBodyMatchAccounts(t *testing.T, body *bytes.Buffer, accounts []db.Ac
 	require.Equal(t, accounts, gotAccounts)
 }
 
-// Test deleting an account
-func TestDeletingAccount(t *testing.T) {
-
-}
-
 // Test getting a list of accounts
 func TestListAccountsApi(t *testing.T) {
 	user, _ := randomUser(t)

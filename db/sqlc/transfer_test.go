@@ -2,10 +2,11 @@ package db
 
 import (
 	"context"
-	"github.com/stretchr/testify/require"
 	"simplebank/util"
 	"testing"
 	"time"
+
+	"github.com/stretchr/testify/require"
 )
 
 func createRandomTransfer(t *testing.T, account1, account2 Account) Transfer {
@@ -22,6 +23,9 @@ func createRandomTransfer(t *testing.T, account1, account2 Account) Transfer {
 	require.Equal(t, arg.FromAccountID, transfer.FromAccountID)
 	require.Equal(t, arg.ToAccountID, transfer.ToAccountID)
 	require.Equal(t, arg.Amount, transfer.Amount)
+
+	require.NotZero(t, transfer.ID)
+	require.NotZero(t, transfer.CreatedAt)
 
 	return transfer
 }
@@ -60,7 +64,7 @@ func TestListTransfers(t *testing.T) {
 
 	arg := ListTransfersParams{
 		FromAccountID: account1.ID,
-		ToAccountID:   account2.ID,
+		ToAccountID:   account1.ID,
 		Limit:         5,
 		Offset:        5,
 	}

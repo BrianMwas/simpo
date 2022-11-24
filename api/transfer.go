@@ -4,10 +4,11 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	db "simplebank/db/sqlc"
 	"simplebank/token"
+
+	"github.com/gin-gonic/gin"
 )
 
 type transferRequest struct {
@@ -34,6 +35,7 @@ func (server *Server) createTransfer(ctx *gin.Context) {
 	if fromAccount.Owner != authPayload.Username {
 		err := errors.New("from account does not belong to the authenticated user")
 		ctx.JSON(http.StatusUnauthorized, errorResponse(err))
+		return
 	}
 	_, valid = server.validateAccount(ctx, req.ToAccountID, req.Currency)
 	// Check whether the currency of the account receiving the money matches the transaction

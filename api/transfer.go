@@ -62,9 +62,9 @@ func (server *Server) validateAccount(ctx *gin.Context, accountID int64, currenc
 		// Show an error 404 if we do not find the account
 		if err == sql.ErrNoRows {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
-		} else {
-			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			return account, false
 		}
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return account, false
 	}
 

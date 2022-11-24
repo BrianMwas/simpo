@@ -246,7 +246,7 @@ func TestTransferTest(t *testing.T) {
 			body: gin.H{
 				"from_account_id": account1.ID,
 				"to_account_id":   account2.ID,
-				"amount":          -amount,
+				"amount":          amount,
 				"currency":        util.USD,
 			},
 			setupAuth: func(t *testing.T, request *http.Request, tokenMaker token.Maker) {
@@ -267,6 +267,7 @@ func TestTransferTest(t *testing.T) {
 		tc := testCases[i]
 
 		t.Run(tc.name, func(t *testing.T) {
+
 			ctrl := gomock.NewController(t)
 			defer ctrl.Finish()
 

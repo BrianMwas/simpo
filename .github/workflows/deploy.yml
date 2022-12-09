@@ -1,4 +1,4 @@
-name: Deplot to production
+name: Deploy to production
 
 on:
   push:
@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Kubectl
-      - uses: azure/setup-kubectl@v3
+        uses: azure/setup-kubectl@v3
         with:
           version: 'v1.21.3' # default is latest stable
         id: install
@@ -40,8 +40,11 @@ jobs:
           REPOSITORY: simpo
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t latest .
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
           docker push -a $REGISTRY/$REPOSITORY
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name simple-bank --region eu-west-2
 
       - name: Deploy image to Amazon EKS
         run: |

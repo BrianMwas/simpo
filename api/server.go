@@ -24,7 +24,8 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	}
 	server := &Server{
 		config: config,
-		store:  store, tokenMaker: tokenMaker}
+		store:  store, tokenMaker: tokenMaker,
+	}
 
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		err := v.RegisterValidation("currency", validCurrency)
@@ -47,6 +48,7 @@ func (server *Server) setupRouter() {
 
 	router.POST("/users", server.createUser)
 	router.POST("/users/login", server.login)
+	router.POST("/tokens/renew_access", server.renewAccessToken)
 
 	// Test for creating a transaction
 	authRoutes.POST("/transfers", server.createTransfer)

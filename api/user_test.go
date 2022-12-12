@@ -212,7 +212,7 @@ func TestLoginUserAPI(t *testing.T) {
 
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusNotFound, recorder.Code)
+				require.Equal(t, http.StatusUnauthorized, recorder.Code)
 			},
 		},
 		{

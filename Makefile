@@ -16,6 +16,7 @@ migratedown:
 migratedown1:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
+
 migrateforce:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose force 1
 
@@ -34,4 +35,16 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go simplebank/db/sqlc Store
 
-.PHONY: postgres createdb dropdb migratedown migrateup migrateup1 migratedown1 sqlc test server mock
+proto:
+	rm -f pb/*.pb.go
+	rm -f doc/swagger/*.swagger.json
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+ 	--go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+	--grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative \
+	--openapiv2_out=doc/swagger --openapiv2_opt=allow_merge=true,merge_file_name=simpo \
+ 	proto/*.proto
+
+evans:
+	evans --host localhost --port 7070 -r repl
+
+.PHONY: postgres createdb dropdb migratedown migrateup migrateup1 migratedown1 sqlc test server mock proto evans migratedown2

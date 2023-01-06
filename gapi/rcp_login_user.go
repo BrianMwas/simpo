@@ -3,11 +3,12 @@ package gapi
 import (
 	"context"
 	"database/sql"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	db "simplebank/db/sqlc"
 	"simplebank/pb"
 	"simplebank/util"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func (server *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (*pb.LoginUserResponse, error) {
@@ -34,13 +35,13 @@ func (server *Server) LoginUser(ctx context.Context, req *pb.LoginUserRequest) (
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "unable to create refresh token %s", err)
 	}
-
+	mtdt := server.extractMetadata(ctx)
 	session, err := server.store.CreateSession(ctx, db.CreateSessionParams{
 		ID:           refreshPayload.ID,
 		Username:     user.Username,
 		RefreshToken: refreshToken,
-		UserAgent:    "",
-		ClientIp:     "",
+		UserAgent:    mtdt.UserAgent,
+		ClientIp:     mtdt.ClientIp,
 		IsBlocked:    false,
 		ExpireAt:     refreshPayload.ExpiredAt,
 	})

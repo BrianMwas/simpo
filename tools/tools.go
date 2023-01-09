@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 // go:build tools
+=======
+>>>>>>> master
 //go:build tools
 // +build tools
 

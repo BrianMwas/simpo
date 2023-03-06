@@ -28,7 +28,7 @@ type User struct {
 
 	Username          string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	FullName          string                 `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
-	Email             string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Email             string                 `protobuf:"bytes,3,opt,name=mail,proto3" json:"mail,omitempty"`
 	PasswordChangedAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=password_changed_at,json=passwordChangedAt,proto3" json:"password_changed_at,omitempty"`
 	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 }

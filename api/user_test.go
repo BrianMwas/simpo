@@ -61,7 +61,7 @@ func TestCreateUserAPI(t *testing.T) {
 				"username":  user.Username,
 				"password":  password,
 				"full_name": user.FullName,
-				"email":     user.Email,
+				"mail":      user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				arg := db.CreateUserParams{
@@ -85,7 +85,7 @@ func TestCreateUserAPI(t *testing.T) {
 				"username":  user.Username,
 				"password":  password,
 				"full_name": user.FullName,
-				"email":     user.Email,
+				"mail":      user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -103,7 +103,7 @@ func TestCreateUserAPI(t *testing.T) {
 				"username":  user.Username,
 				"password":  password,
 				"full_name": user.FullName,
-				"email":     user.Email,
+				"mail":      user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -121,7 +121,7 @@ func TestCreateUserAPI(t *testing.T) {
 				"username":  user.Username,
 				"password":  password,
 				"full_name": user.FullName,
-				"email":     "invalid-email",
+				"mail":      "invalid-mail",
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -138,7 +138,7 @@ func TestCreateUserAPI(t *testing.T) {
 				"username":  user.Username,
 				"password":  "123",
 				"full_name": user.FullName,
-				"email":     user.Email,
+				"mail":      user.Email,
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().

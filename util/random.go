@@ -34,9 +34,9 @@ func RandomOwner() string {
 	return RandomString(6)
 }
 
-// RandomEmail generates a random email
+// RandomEmail generates a random mail
 func RandomEmail() string {
-	return fmt.Sprintf("%s@email.com", RandomString(6))
+	return fmt.Sprintf("%s@mail.com", RandomString(6))
 }
 
 // RandomMoney generates a random amount of money

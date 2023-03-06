@@ -27,13 +27,19 @@ sqlc:
 	sqlc generate
 
 test:
-	go test -v ./...
+	go test -v -cover -short ./...
 
 server:
 	go run main.go
 
 mock:
 	mockgen -package mockdb -destination db/mock/store.go simplebank/db/sqlc Store
+
+db_schema:
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
 
 proto:
 	rm -f pb/*.pb.go
@@ -50,4 +56,4 @@ evans:
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine
 
-.PHONY: postgres createdb dropdb migratedown migrateup migrateup1 migratedown1 sqlc test server mock proto evans migratedown2 redis
+.PHONY: postgres createdb dropdb migratedown migrateup migrateup1 migratedown1 sqlc test server mock proto evans migratedown2 redis new_migration db_schema

@@ -84,6 +84,7 @@ func runGatewayServer(config util.Config, store db.Store, taskDistributor worker
 	if err != nil {
 		log.Fatal().Msg("cannot create server")
 	}
+
 	jsonOption := runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{
 		MarshalOptions: protojson.MarshalOptions{
 			UseProtoNames: true,

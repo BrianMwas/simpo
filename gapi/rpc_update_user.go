@@ -83,7 +83,7 @@ func validateUpdateUserRequest(req *pb.UpdateUserRequest) (violations []*errdeta
 
 	if req.Email != nil {
 		if err := val.ValidateEmail(req.GetEmail()); err != nil {
-			violations = append(violations, fieldViolation("email", err))
+			violations = append(violations, fieldViolation("mail", err))
 		}
 	}
 

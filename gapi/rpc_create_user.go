@@ -47,7 +47,7 @@ func (server *Server) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 				asynq.ProcessIn(10 * time.Second),
 				asynq.Queue(worker.QueueCritical),
 			}
-			// Send verification email
+			// Send verification mail
 			return server.taskDistributor.DistributeTaskSendVerifyEmail(ctx, taskPayload, opts...)
 		},
 	}
@@ -86,7 +86,7 @@ func validateCreateUserRequest(req *pb.CreateUserRequest) (violations []*errdeta
 	}
 
 	if err := val.ValidateEmail(req.GetEmail()); err != nil {
-		violations = append(violations, fieldViolation("email", err))
+		violations = append(violations, fieldViolation("mail", err))
 	}
 
 	if err := val.ValidateFullName(req.GetFullName()); err != nil {

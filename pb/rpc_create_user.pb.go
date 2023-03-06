@@ -27,7 +27,7 @@ type CreateUserRequest struct {
 
 	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 	FullName string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
-	Email    string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Email    string `protobuf:"bytes,3,opt,name=mail,proto3" json:"mail,omitempty"`
 	Password string `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
 }
 
